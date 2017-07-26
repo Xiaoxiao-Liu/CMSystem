@@ -4,6 +4,9 @@ namespace CMSystem.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CMSystem.Models.ApplicationDbContext>
     {
@@ -26,6 +29,21 @@ namespace CMSystem.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            AddUsers(context);
         }
+
+        void AddUsers (ApplicationDbContext context)
+        {
+            var user_Customer = new ApplicationUser { UserName = "customer@email.com" };
+            var userManager = new UserManager<ApplicationUser>(
+                new UserStore<ApplicationUser>(context));
+            userManager.Create(user_Customer, "password");
+
+            var user_Staff = new ApplicationUser { UserName = "Manager@email.com" };
+            
+            userManager.Create(user_Staff, "password");
+
+        }
+
     }
 }

@@ -196,15 +196,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AnnouncementsController.cs" />
+    <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707251841236_init.cs" />
-    <Compile Include="Migrations\201707251841236_init.Designer.cs">
-      <DependentUpon>201707251841236_init.cs</DependentUpon>
+    <Compile Include="Migrations\201707251924378_init.cs" />
+    <Compile Include="Migrations\201707251924378_init.Designer.cs">
+      <DependentUpon>201707251924378_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707251947013_two.cs" />
+    <Compile Include="Migrations\201707251947013_two.Designer.cs">
+      <DependentUpon>201707251947013_two.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -277,11 +281,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Announcements\Create.cshtml" />
-    <Content Include="Views\Announcements\Delete.cshtml" />
-    <Content Include="Views\Announcements\Details.cshtml" />
-    <Content Include="Views\Announcements\Edit.cshtml" />
-    <Content Include="Views\Announcements\Index.cshtml" />
+    <Content Include="Views\Announcement\Create.cshtml" />
+    <Content Include="Views\Announcement\Delete.cshtml" />
+    <Content Include="Views\Announcement\Details.cshtml" />
+    <Content Include="Views\Announcement\Edit.cshtml" />
+    <Content Include="Views\Announcement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -295,8 +299,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707251841236_init.resx">
-      <DependentUpon>201707251841236_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707251924378_init.resx">
+      <DependentUpon>201707251924378_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707251947013_two.resx">
+      <DependentUpon>201707251947013_two.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

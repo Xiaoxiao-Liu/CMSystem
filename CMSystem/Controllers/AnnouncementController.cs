@@ -7,20 +7,28 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMSystem.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CMSystem.Controllers
 {
-    public class AnnouncementsController : Controller
+    [Authorize]
+    public class AnnouncementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Announcements
+        [Authorize(Roles ="")]
+        // GET: Announcement
         public ActionResult Index()
         {
-            return View(db.Announcements.ToList());
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+
+            return View(db.Announcements.ToList().Where(x=>x.User==currentUser));
         }
 
-        // GET: Announcements/Details/5
+        // GET: Announcement/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,13 +43,13 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
-        // GET: Announcements/Create
+        // GET: Announcement/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Announcements/Create
+        // POST: Announcement/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -50,6 +58,16 @@ namespace CMSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    (x => x.Id == currentUserId);
+                announcement.User = currentUser;
+
+                //var userManager = new UserManager<ApplicationUser>(
+                //new UserStore<ApplicationUser>(db));
+
+                //userManager.AddToRole(currentUser.Id, "staff");
+
                 db.Announcements.Add(announcement);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -58,7 +76,7 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
-        // GET: Announcements/Edit/5
+        // GET: Announcement/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,7 +91,7 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
-        // POST: Announcements/Edit/5
+        // POST: Announcement/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -89,7 +107,7 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
-        // GET: Announcements/Delete/5
+        // GET: Announcement/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +122,7 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
-        // POST: Announcements/Delete/5
+        // POST: Announcement/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

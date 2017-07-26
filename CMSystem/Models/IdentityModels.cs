@@ -33,7 +33,7 @@ namespace CMSystem.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<CMSystem.Models.Announcement> Announcements { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
     }
     
 }
