@@ -15,6 +15,25 @@ namespace CMSystem.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
+        //bool AddUserAndRole(CMSystem.Models.ApplicationDbContext context)
+        //{
+        //    IdentityResult ir;
+        //    var rm = new RoleManager<IdentityRole>
+        //        (new RoleStore<IdentityRole>(context));
+        //    ir = rm.Create(new IdentityRole("canEdit"));
+        //    var um = new UserManager<ApplicationUser>(
+        //        new UserStore<ApplicationUser>(context));
+        //    var user = new ApplicationUser()
+        //    {
+        //    UserName = "rosa@email.com",
+        //    };
+        //    ir = um.Create(user, "password");
+        //    if (ir.Succeeded == false)
+        //        return ir.Succeeded;
+        //    ir = um.AddToRole(user.Id, "canEdit");
+        //    return ir.Succeeded;
+        //}
+
         protected override void Seed(CMSystem.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -30,9 +49,11 @@ namespace CMSystem.Migrations
             //    );
             //
             AddUsers(context);
+            //AddUserAndRole(context);
+
         }
 
-        void AddUsers (ApplicationDbContext context)
+        void AddUsers(ApplicationDbContext context)
         {
             var user_Customer = new ApplicationUser { UserName = "customer@email.com" };
             var userManager = new UserManager<ApplicationUser>(
@@ -40,10 +61,11 @@ namespace CMSystem.Migrations
             userManager.Create(user_Customer, "password");
 
             var user_Staff = new ApplicationUser { UserName = "Manager@email.com" };
-            
+
             userManager.Create(user_Staff, "password");
 
-        }
+            //}
 
+        }
     }
 }

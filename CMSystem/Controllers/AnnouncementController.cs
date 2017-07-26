@@ -17,7 +17,7 @@ namespace CMSystem.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize(Roles ="")]
+        [Authorize]
         // GET: Announcement
         public ActionResult Index()
         {
@@ -77,6 +77,7 @@ namespace CMSystem.Controllers
         }
 
         // GET: Announcement/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
