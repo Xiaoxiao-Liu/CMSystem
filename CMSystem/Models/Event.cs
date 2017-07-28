@@ -45,7 +45,7 @@ namespace CMSystem.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime Deadline { get; set; }
         public int Capacity { get; set; }
-        public int Role { get; set; }
+        public string Role { get; set; }
    
     }
 }

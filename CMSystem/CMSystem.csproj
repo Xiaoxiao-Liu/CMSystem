@@ -199,6 +199,8 @@
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\userController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,6 +215,18 @@
     <Compile Include="Migrations\201707261611114_three.cs" />
     <Compile Include="Migrations\201707261611114_three.Designer.cs">
       <DependentUpon>201707261611114_three.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707261945023_four.cs" />
+    <Compile Include="Migrations\201707261945023_four.Designer.cs">
+      <DependentUpon>201707261945023_four.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707262004132_five.cs" />
+    <Compile Include="Migrations\201707262004132_five.Designer.cs">
+      <DependentUpon>201707262004132_five.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707262008197_six.cs" />
+    <Compile Include="Migrations\201707262008197_six.Designer.cs">
+      <DependentUpon>201707262008197_six.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -290,9 +304,12 @@
     <Content Include="Views\Announcement\Details.cshtml" />
     <Content Include="Views\Announcement\Edit.cshtml" />
     <Content Include="Views\Announcement\Index.cshtml" />
+    <Content Include="Views\user\Index.cshtml" />
+    <Content Include="Views\user\AddRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Role\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -311,6 +328,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707261611114_three.resx">
       <DependentUpon>201707261611114_three.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707261945023_four.resx">
+      <DependentUpon>201707261945023_four.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707262004132_five.resx">
+      <DependentUpon>201707262004132_five.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707262008197_six.resx">
+      <DependentUpon>201707262008197_six.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

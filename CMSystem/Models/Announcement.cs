@@ -33,7 +33,7 @@ namespace CMSystem.Models
         public DateTime ExpiryTime { get; set; }
 
 
-        public int Role { get; set; }
+        public string Role { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }
