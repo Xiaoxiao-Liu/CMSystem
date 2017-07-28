@@ -17,6 +17,12 @@ namespace CMSystem.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            if ( !manager.IsInRole(this.Id, "Customer") && !manager.IsInRole(this.Id, "Member"))
+            {
+                manager.AddToRole(this.Id, "Customer");
+                manager.AddClaim(this.Id, (new Claim("Role", "Customer")));
+                manager.AddClaim(this.Id, (new Claim("Permission", "Attempt Tests")));
+            }
             return userIdentity;
         }
     }

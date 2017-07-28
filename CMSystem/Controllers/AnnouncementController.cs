@@ -9,15 +9,20 @@ using System.Web.Mvc;
 using CMSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WebApplication.Attribute;
+using System.Security.Claims;
 
 namespace CMSystem.Controllers
 {
-    [Authorize]
+
+    [Authorize(Roles ="Member")]
+    [ClaimsAuthorize(ClaimTypes.Role, "Member")]
+
     public class AnnouncementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize]
+
         // GET: Announcement
         public ActionResult Index()
         {
@@ -77,7 +82,7 @@ namespace CMSystem.Controllers
         }
 
         // GET: Announcement/Edit/5
-        [Authorize]
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
