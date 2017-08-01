@@ -82,7 +82,6 @@ namespace CMSystem.Migrations
 
             }
 
-            int memberNo = 100;
             var Member = new ApplicationUser { UserName = "Member1@email.com", Email = "Member1@email.com", Name = "Member1 " };
 
             var result2 = userManager.Create(Member, "password");

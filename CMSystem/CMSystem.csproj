@@ -211,6 +211,10 @@
     <Compile Include="Migrations\201707281812109_init2.Designer.cs">
       <DependentUpon>201707281812109_init2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707311559219_deleteMemberInt.cs" />
+    <Compile Include="Migrations\201707311559219_deleteMemberInt.Designer.cs">
+      <DependentUpon>201707311559219_deleteMemberInt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
@@ -305,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707281812109_init2.resx">
       <DependentUpon>201707281812109_init2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707311559219_deleteMemberInt.resx">
+      <DependentUpon>201707311559219_deleteMemberInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -15,8 +15,8 @@ using System.Security.Claims;
 namespace CMSystem.Controllers
 {
 
-    [Authorize(Roles ="Member")]
-    [ClaimsAuthorize(ClaimTypes.Role, "Member")]
+    //[Authorize(Roles ="Member")]
+    //[ClaimsAuthorize(ClaimTypes.Role, "Member")]
 
     public class AnnouncementController : Controller
     {
@@ -26,11 +26,17 @@ namespace CMSystem.Controllers
         // GET: Announcement
         public ActionResult Index()
         {
-            string currentUserId = User.Identity.GetUserId();
-            ApplicationUser currentUser = db.Users.FirstOrDefault
-                (x => x.Id == currentUserId);
+            //string currentUserId = User.Identity.GetUserId();
+            //ApplicationUser currentUser = db.Users.FirstOrDefault
+            //    (x => x.Id == currentUserId);
+            //return View(db.Announcements.ToList().Where(x=>x.User==currentUser));
 
-            return View(db.Announcements.ToList().Where(x=>x.User==currentUser));
+
+            return View(db.Announcements.ToList()
+                .Where(time => time.ExpiryTime >= DateTime.Today)
+                .Where(time =>time.AnnoucingTime<=DateTime.Today)
+                );
+            
         }
 
         // GET: Announcement/Details/5
@@ -48,7 +54,10 @@ namespace CMSystem.Controllers
             return View(announcement);
         }
 
+
         // GET: Announcement/Create
+        [Authorize(Roles = "Member")]
+        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult Create()
         {
             return View();
@@ -82,7 +91,8 @@ namespace CMSystem.Controllers
         }
 
         // GET: Announcement/Edit/5
-
+        [Authorize(Roles = "Member")]
+        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -106,6 +116,7 @@ namespace CMSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Entry(announcement).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -114,6 +125,7 @@ namespace CMSystem.Controllers
         }
 
         // GET: Announcement/Delete/5
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -133,7 +145,8 @@ namespace CMSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Announcement announcement = db.Announcements.Find(id);
+
+            Announcement announcement = db.Announcements.Find(id);            
             db.Announcements.Remove(announcement);
             db.SaveChanges();
             return RedirectToAction("Index");
