@@ -39,7 +39,9 @@ namespace CMSystem.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<Announcement> Announcement { get; set; }
+
+        public System.Data.Entity.DbSet<CMSystem.Models.Comment> Comments { get; set; }
     }
     
 }

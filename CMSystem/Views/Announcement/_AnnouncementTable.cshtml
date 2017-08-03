@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CMSystem.Models.Announcement>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnouncementTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnouncementContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnoucingTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpiryTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnouncementTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnouncementContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnoucingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiryTime)
+            </td>
+            <td>
+                @if (item.Role == 2)
+                {
+                    @Html.Display("Member")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Role)
+
+                }
+
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |
+                @*<a href="/Announcement/Delete/@item.AnnouncementId" data-toggle="popover" data-content="abcdefg" data-placement="auto right">Delete</a>*@
+                @*<a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>*@
+                <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"]').click(function (e) {
+                e.preventDefault();
+                $(".deleteButton").click(function () {
+                    var data = { id: $(this).attr('myid'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                    var button = $(this).parent().parent().parent().parent();
+                    $.ajax({
+                        type:"POST",
+                        url: '/Announcement/AJAXDeleteConfirmed',
+                        data:data,
+                        success: function (result) {
+                            button.remove();
+                        }
+                    });
+                    //$(this).attr('myid') get announcement ID
+                });
+                $(".CloseButton").click(function () {
+                    $(this).popover(hide);
+                })
+            });
+            //$('html').click(function (e) {
+            //    $('[data-toggle="popover"]').popover('hide');
+            //});
+        });
+       
+
+
+
+</script>
