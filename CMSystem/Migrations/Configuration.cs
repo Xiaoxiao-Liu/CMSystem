@@ -18,13 +18,13 @@ namespace CMSystem.Migrations
 
         protected override void Seed(CMSystem.Models.ApplicationDbContext context)
         {
-           
+
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
             if (!roleManager.RoleExists("Customer"))
-                {
+            {
                 var role = new IdentityRole();
                 role.Name = "Customer";
                 roleManager.Create(role);
@@ -38,7 +38,7 @@ namespace CMSystem.Migrations
 
             for (int i = 0; i < 6; i++)
             {
-                var userToInsert = new ApplicationUser { UserName = "Customer" + i + "@email.com", Email = "Customer" + i + "@email.com",  Name = "Customer " + i };
+                var userToInsert = new ApplicationUser { UserName = "Customer" + i + "@email.com", Email = "Customer" + i + "@email.com", Name = "Customer " + i };
 
                 var result = userManager.Create(userToInsert, "password");
 
@@ -51,7 +51,7 @@ namespace CMSystem.Migrations
 
             }
 
-            var Member = new ApplicationUser { UserName = "Member1@email.com", Email = "Member1@email.com", Name = "Member1 " };
+            var Member = new ApplicationUser { UserName = "Member1@email.com", Email = "Member1@email.com", Name = "Member1" };
 
             var result2 = userManager.Create(Member, "password");
             if (result2.Succeeded)
@@ -64,6 +64,6 @@ namespace CMSystem.Migrations
 
         }
 
-       
+
     }
 }

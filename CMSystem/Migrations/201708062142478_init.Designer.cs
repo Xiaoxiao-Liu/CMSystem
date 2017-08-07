@@ -7,13 +7,13 @@ namespace CMSystem.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class deleteMemberInt : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(deleteMemberInt));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707311559219_deleteMemberInt"; }
+            get { return "201708062142478_init"; }
         }
         
         string IMigrationMetadata.Source

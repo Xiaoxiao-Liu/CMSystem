@@ -7,17 +7,30 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMSystem.Models;
+using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace CMSystem.Controllers
 {
     public class CommentController : Controller
     {
+
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comment
         public ActionResult Index()
         {
-            return View(db.Comments.ToList());
+            return View();
+        }
+
+        private IEnumerable<Comment> GetComment()
+        {
+            return db.Comment.ToList();
+        }
+
+        public ActionResult BuildCommentTable()
+        {
+            return PartialView("_CommentTable", GetComment());
         }
 
         // GET: Comment/Details/5
@@ -27,7 +40,7 @@ namespace CMSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = db.Comment.Find(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -50,12 +63,34 @@ namespace CMSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Comments.Add(comment);
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    (x => x.Id == currentUserId);
+                comment.User = currentUser;
+                db.Comment.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(comment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXCreate([Bind(Include = "CommentId,CommentContent,Anonymous,CommentTime")] Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault
+                    (x => x.Id == currentUserId);
+                comment.User = currentUser;
+                db.Comment.Add(comment);
+                db.SaveChanges();
+              
+            }
+
+            return PartialView("_CommentTable", GetComment());
         }
 
         // GET: Comment/Edit/5
@@ -65,7 +100,7 @@ namespace CMSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = db.Comment.Find(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -96,7 +131,7 @@ namespace CMSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comment comment = db.Comments.Find(id);
+            Comment comment = db.Comment.Find(id);
             if (comment == null)
             {
                 return HttpNotFound();
@@ -109,10 +144,20 @@ namespace CMSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
+            Comment comment = db.Comment.Find(id);
+            db.Comment.Remove(comment);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXDeleteConfirmed(int id)
+        {
+            Comment comment = db.Comment.Find(id);
+            db.Comment.Remove(comment);
+            db.SaveChanges();
+            return PartialView("_CommentTable", GetComment());
         }
 
         protected override void Dispose(bool disposing)

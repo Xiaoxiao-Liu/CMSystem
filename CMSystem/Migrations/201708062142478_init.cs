@@ -84,6 +84,23 @@ namespace CMSystem.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Comments",
+                c => new
+                    {
+                        CommentId = c.Int(nullable: false, identity: true),
+                        CommentContent = c.String(nullable: false),
+                        Anonymous = c.Boolean(nullable: false),
+                        CommentTime = c.DateTime(nullable: false),
+                        AnnouncementId_AnnouncementId = c.Int(),
+                        UserId_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.CommentId)
+                .ForeignKey("dbo.Announcements", t => t.AnnouncementId_AnnouncementId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId_Id)
+                .Index(t => t.AnnouncementId_AnnouncementId)
+                .Index(t => t.UserId_Id);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -98,11 +115,15 @@ namespace CMSystem.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Comments", "UserId_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Comments", "AnnouncementId_AnnouncementId", "dbo.Announcements");
             DropForeignKey("dbo.Announcements", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Comments", new[] { "UserId_Id" });
+            DropIndex("dbo.Comments", new[] { "AnnouncementId_AnnouncementId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -110,6 +131,7 @@ namespace CMSystem.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Announcements", new[] { "User_Id" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Comments");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

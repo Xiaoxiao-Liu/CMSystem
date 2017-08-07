@@ -41,7 +41,7 @@ namespace CMSystem.Models
 
         public DbSet<Announcement> Announcement { get; set; }
 
-        public System.Data.Entity.DbSet<CMSystem.Models.Comment> Comments { get; set; }
+        public System.Data.Entity.DbSet<CMSystem.Models.Comment> Comment { get; set; }
     }
     
 }

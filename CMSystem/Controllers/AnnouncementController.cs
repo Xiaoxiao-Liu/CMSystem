@@ -14,14 +14,10 @@ using System.Security.Claims;
 using System.Diagnostics;
 
 namespace CMSystem.Controllers
-{
-    //[Authorize(Roles ="Member")]
-    //[ClaimsAuthorize(ClaimTypes.Role, "Member")]
-
+{    
     public class AnnouncementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
 
         // GET: Announcement
         public ActionResult Index()
@@ -73,31 +69,7 @@ namespace CMSystem.Controllers
         // POST: Announcement/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Member")]
-        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
-        public ActionResult Create([Bind(Include = "AnnouncementId,AnnouncementTitle,AnnouncementContent,AnnoucingTime,ExpiryTime,Role")] Announcement announcement)
-        {
-            if (ModelState.IsValid)
-            {
-                string currentUserId = User.Identity.GetUserId();
-                ApplicationUser currentUser = db.Users.FirstOrDefault
-                    (x => x.Id == currentUserId);
-                announcement.User = currentUser;
-
-                //var userManager = new UserManager<ApplicationUser>(
-                //new UserStore<ApplicationUser>(db));
-
-                //userManager.AddToRole(currentUser.Id, "staff");
-
-                db.Announcement.Add(announcement);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(announcement);
-        }
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,6 +85,10 @@ namespace CMSystem.Controllers
                     (x => x.Id == currentUserId);
                 announcement.User = currentUser;              
                 db.Announcement.Add(announcement);
+
+      //          Comment comment = new Comment();
+               // comment.AnnouncementId = announcement.Id;
+
                 db.SaveChanges();
             }
             Debug.WriteLine(GetAnnouncement());
@@ -170,19 +146,10 @@ namespace CMSystem.Controllers
         }
 
         // POST: Announcement/Delete/5
-        [HttpPost, ActionName("Delete")]
+        
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-
-            Announcement announcement = db.Announcement.Find(id);            
-            db.Announcement.Remove(announcement);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        [Authorize(Roles = "Member")]
-        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXDeleteConfirmed(int id)
         {
             Announcement announcement = db.Announcement.Find(id);

@@ -36,17 +36,7 @@
                 @Html.DisplayFor(modelItem => item.ExpiryTime)
             </td>
             <td>
-                @if (item.Role == 2)
-                {
-                    @Html.Display("Member")
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Role)
-
-                }
-
-
+       
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
@@ -63,9 +53,9 @@
 <script>
         $(function () {
             $('[data-toggle="popover"]').popover();
-            $('[data-toggle="popover"]').click(function (e) {
-                e.preventDefault();
-                $(".deleteButton").click(function () {
+            $('[data-toggle="popover"]').click(function (event) {
+                event.preventDefault();
+                $(".deleteButton").click(function () { 
                     var data = { id: $(this).attr('myid'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
                     var button = $(this).parent().parent().parent().parent();
                     $.ajax({
@@ -73,13 +63,14 @@
                         url: '/Announcement/AJAXDeleteConfirmed',
                         data:data,
                         success: function (result) {
+                            console.log("success");
                             button.remove();
                         }
                     });
                     //$(this).attr('myid') get announcement ID
                 });
                 $(".CloseButton").click(function () {
-                    $(this).popover(hide);
+                    $(this).popover('hide');
                 })
             });
             //$('html').click(function (e) {

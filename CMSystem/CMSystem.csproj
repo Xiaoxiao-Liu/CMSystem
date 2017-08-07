@@ -204,17 +204,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707281754201_init.cs" />
-    <Compile Include="Migrations\201707281754201_init.Designer.cs">
-      <DependentUpon>201707281754201_init.cs</DependentUpon>
+    <Compile Include="Migrations\201708062142478_init.cs" />
+    <Compile Include="Migrations\201708062142478_init.Designer.cs">
+      <DependentUpon>201708062142478_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707281812109_init2.cs" />
-    <Compile Include="Migrations\201707281812109_init2.Designer.cs">
-      <DependentUpon>201707281812109_init2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707311559219_deleteMemberInt.cs" />
-    <Compile Include="Migrations\201707311559219_deleteMemberInt.Designer.cs">
-      <DependentUpon>201707311559219_deleteMemberInt.cs</DependentUpon>
+    <Compile Include="Migrations\201708062246319_nameChanging.cs" />
+    <Compile Include="Migrations\201708062246319_nameChanging.Designer.cs">
+      <DependentUpon>201708062246319_nameChanging.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -242,6 +238,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Custom_Scripts\BuildCommentTable.js" />
     <Content Include="Scripts\Custom_Scripts\BuildTable.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -301,6 +298,7 @@
     <Content Include="Views\Comment\Details.cshtml" />
     <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Comment\Index.cshtml" />
+    <Content Include="Views\Comment\_CommentTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -314,14 +312,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707281754201_init.resx">
-      <DependentUpon>201707281754201_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708062142478_init.resx">
+      <DependentUpon>201708062142478_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707281812109_init2.resx">
-      <DependentUpon>201707281812109_init2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707311559219_deleteMemberInt.resx">
-      <DependentUpon>201707311559219_deleteMemberInt.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708062246319_nameChanging.resx">
+      <DependentUpon>201708062246319_nameChanging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

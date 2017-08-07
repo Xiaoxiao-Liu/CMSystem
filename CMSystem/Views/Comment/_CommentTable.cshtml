@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CMSystem.Models.Comment>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Anonymous)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Anonymous)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CommentId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |
+                <a href="#" data-toggle="popOver" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' hisId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+    $(function () {
+        $('[data-toggle="popOver"]').popover();
+        $('[data-toggle="popOver"]').click(function (e) {
+            e.preventDefault();
+            $(".deleteButton").click(function () {
+                var data = { id: $(this).attr('hisId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                var button = $(this).parent().parent().parent().parent();
+                $.ajax({
+                    type: "POST",
+                    url: '/Comment/AJAXDeleteConfirmed',
+                    data: data,
+                    success: function (result) {
+                        button.remove();
+                    }
+                });
+                //$(this).attr('myid') get announcement ID
+            });
+            $(".CloseButton").click(function () {
+                $(this).popover(hide);
+            })
+        });
+    });
+</script>
