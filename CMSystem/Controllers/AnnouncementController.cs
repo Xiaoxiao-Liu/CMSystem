@@ -14,12 +14,15 @@ using System.Security.Claims;
 using System.Diagnostics;
 
 namespace CMSystem.Controllers
-{    
+{
+    [Authorize(Roles = "Member, Customer")]
+    [ClaimsAuthorize(ClaimTypes.Role, "Member, Customer")]
     public class AnnouncementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Announcement
+       
         public ActionResult Index()
         {
             //string currentUserId = User.Identity.GetUserId();
@@ -83,11 +86,12 @@ namespace CMSystem.Controllers
                 string currentUserId = User.Identity.GetUserId();
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId);
-                announcement.User = currentUser;              
+                announcement.User = currentUser;
+                              
                 db.Announcement.Add(announcement);
 
-      //          Comment comment = new Comment();
-               // comment.AnnouncementId = announcement.Id;
+                Comment comment = new Comment();
+                comment.Announcement = announcement;
 
                 db.SaveChanges();
             }
@@ -100,6 +104,7 @@ namespace CMSystem.Controllers
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

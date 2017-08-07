@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<CMSystem.Models.Announcement>
 
+
 <table class="table">
     <tr>
         <th>
@@ -44,6 +45,55 @@
                 @*<a href="/Announcement/Delete/@item.AnnouncementId" data-toggle="popover" data-content="abcdefg" data-placement="auto right">Delete</a>*@
                 @*<a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>*@
                 <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                   Comment
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Comment Here</h4>
+                            </div>
+                            <div class="modal-body">
+                                Insert Partial View Here                            
+
+                                <script>
+                                    function CommentModels() {
+                                        var comment = this;
+                                        comment.AnnouncementId=@Html.Raw(Json.Encode(item.AnnouncementId));
+                                        comment.CommentContent=$('#commentContent').val();
+                                        comment.Anonymous=$('#anonymous').val();                                                                              
+                                    }
+
+                                    $('.newComment').click(function(){
+                                        var CommentModels=new CommentModels();
+                                        $.ajax({
+                                            type:"POST",
+                                            url:"@Url.Action("AJAXCreate", "Comment")",
+                                            data:{CommentModels, __RequestVerificationToken:$('input[name="__RequestVerificationToken"]').val() },
+                                            success: function(res){
+                                              
+                                            }
+                                        });
+                                    });
+
+
+
+                                </script>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" id="newComment" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </td>
         </tr>
     }
@@ -76,9 +126,8 @@
             //$('html').click(function (e) {
             //    $('[data-toggle="popover"]').popover('hide');
             //});
-        });
-       
-
-
-
+        });       
 </script>
+
+
+

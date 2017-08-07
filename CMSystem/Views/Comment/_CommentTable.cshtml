@@ -15,7 +15,7 @@
     </tr>
 
     @foreach (var item in Model)
-    {
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CommentContent)
@@ -32,7 +32,7 @@
                 <a href="#" data-toggle="popOver" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' hisId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
             </td>
         </tr>
-    }
+        }
 
 </table>
 
@@ -40,9 +40,9 @@
     $(function () {
         $('[data-toggle="popOver"]').popover();
         $('[data-toggle="popOver"]').click(function (e) {
-            e.preventDefault();
+                e.preventDefault();
             $(".deleteButton").click(function () {
-                var data = { id: $(this).attr('hisId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                    var data = { id: $(this).attr('hisId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
                 var button = $(this).parent().parent().parent().parent();
                 $.ajax({
                     type: "POST",

@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using CMSystem.Models;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
+using WebApplication.Attribute;
+using System.Security.Claims;
 
 namespace CMSystem.Controllers
 {
+    [Authorize(Roles = "Member, Customer")]
+    [ClaimsAuthorize(ClaimTypes.Role, "Member, Customer")]
     public class CommentController : Controller
     {
-
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comment
