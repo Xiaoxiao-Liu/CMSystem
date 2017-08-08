@@ -48,31 +48,31 @@
                 <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal" annoucementId="@item.AnnouncementId">
+                <button type="button" class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal-@item.AnnouncementId" annoucementId="@item.AnnouncementId">
                     Comment
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fade" id="myModal-@item.AnnouncementId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel">Comment Here</h4>
                             </div>
-                            <div id="partialView"></div>
+                            <div id="partialView-@item.AnnouncementId"></div>
                             <div class="modal-body">
                                 Add Comments
-                                <input class="form-control commentContent" type="text">
+                                <input class="form-control commentContent" id="commentContent-@item.AnnouncementId" type="text">
                                 <label>
-                                    <input type="checkbox" class="anonymous">  Anonymous
+                                    <input type="checkbox" class="anonymous" id="anonymous-@item.AnnouncementId">  Anonymous
                                 </label>
 
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" val="@counter" class="btn btn-primary newCommentSubmit">Submit</button>
+                                <button type="button" annoucementId="@item.AnnouncementId" class="btn btn-primary newCommentSubmit" id="newCommentSubmit-@item.AnnouncementId">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -116,36 +116,39 @@
 
 
 <script>
-    function CommentModels() {
+    function CommentModels(announcementId) {
         var self = this;
-        self.CommentContent = $('.commentContent').val();
-        self.Anonymous = $('.anonymous').val();
+        self.CommentContent = $('#commentContent-' + announcementId).val();
+        self.Anonymous = $('#anonymous-' + announcementId).val();
     }
+
+
     $(function () {
         $('.table').on("click", ".newCommentSubmit", function () {
-            var commentModels = new CommentModels();
-            var announcementId = $(".newCommentSubmit").attr("val");
-            console.log(announcementId);
-            console.log(commentModels);
+            var announcementId = $(this).attr("annoucementId");
+            var commentModels = new CommentModels(announcementId);
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("AJAXCreate", "Comment")",
                 data: { commentModels, announcementId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
                 success: function (res) {
-                    $("#partialView").html(res);
+                    $("#partialView-" + announcementId).html(res);
+                    $('.commentContent').val('');
+                    $('.anonymous').prop('checked', false);
                 }
             });
         });
 
         $('.newCommentModal').click(function () {
-            var data = { id: $(this).attr('annoucementId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+            var announcementId = $(this).attr("annoucementId");
+            var data = { announcementId: announcementId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
             $.ajax({
+                type: "POST",
                 url: '/Comment/BuildCommentTable',
                 data: data,
                 success: function (res) {
-                    $("#partialView").html(res);
+                    $("#partialView-" + announcementId).html(res);
                 }
-
             });
         });
     });

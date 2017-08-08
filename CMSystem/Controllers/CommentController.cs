@@ -26,14 +26,18 @@ namespace CMSystem.Controllers
             return View();
         }
 
-        private IEnumerable<Comment> GetComment()
+        private IEnumerable<Comment> GetComment(Announcement Announcement)
         {
-            return db.Comment.ToList();
+            return db.Comment.Where(x => x.Announcement.AnnouncementId == Announcement.AnnouncementId).ToList();
         }
 
-        public ActionResult BuildCommentTable()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BuildCommentTable(int announcementId)
         {
-            return PartialView("_CommentTable", GetComment());
+            Announcement Announcement = db.Announcement.FirstOrDefault
+         (x => x.AnnouncementId == announcementId);
+            return PartialView("_CommentTable", GetComment(Announcement));
         }
 
         // GET: Comment/Details/5
@@ -91,12 +95,11 @@ namespace CMSystem.Controllers
                     (x => x.AnnouncementId == announcementId);
             commentModels.Announcement = Announcement;
             commentModels.CommentTime = DateTime.Now;
-            //commentModels.CommentId = 4;
             db.Comment.Add(commentModels);
             db.SaveChanges();
 
 
-            return PartialView("_CommentTable", GetComment());
+            return PartialView("_CommentTable", GetComment(Announcement));
         }
 
         // GET: Comment/Edit/5
@@ -160,10 +163,12 @@ namespace CMSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AJAXDeleteConfirmed(int id)
         {
+            
             Comment comment = db.Comment.Find(id);
+            Announcement annoucement = comment.Announcement;
             db.Comment.Remove(comment);
             db.SaveChanges();
-            return PartialView("_CommentTable", GetComment());
+            return PartialView("_CommentTable", GetComment(annoucement));
         }
 
         protected override void Dispose(bool disposing)

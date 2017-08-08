@@ -239,6 +239,22 @@
     <Compile Include="Migrations\201708081950082_AI_commentID.Designer.cs">
       <DependentUpon>201708081950082_AI_commentID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708082047316_announcementId.cs" />
+    <Compile Include="Migrations\201708082047316_announcementId.Designer.cs">
+      <DependentUpon>201708082047316_announcementId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708082052485_announcementId-fk.cs" />
+    <Compile Include="Migrations\201708082052485_announcementId-fk.Designer.cs">
+      <DependentUpon>201708082052485_announcementId-fk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708082056066_undo-last.cs" />
+    <Compile Include="Migrations\201708082056066_undo-last.Designer.cs">
+      <DependentUpon>201708082056066_undo-last.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708082114010_deleteAnnouncement.cs" />
+    <Compile Include="Migrations\201708082114010_deleteAnnouncement.Designer.cs">
+      <DependentUpon>201708082114010_deleteAnnouncement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
@@ -454,6 +470,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708081950082_AI_commentID.resx">
       <DependentUpon>201708081950082_AI_commentID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708082047316_announcementId.resx">
+      <DependentUpon>201708082047316_announcementId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708082052485_announcementId-fk.resx">
+      <DependentUpon>201708082052485_announcementId-fk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708082056066_undo-last.resx">
+      <DependentUpon>201708082056066_undo-last.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708082114010_deleteAnnouncement.resx">
+      <DependentUpon>201708082114010_deleteAnnouncement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

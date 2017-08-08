@@ -29,7 +29,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.CommentId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |
-                <a href="#" data-toggle="popOver" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' hisId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+                <a href="#" data-toggle="popOver" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' commentId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
             </td>
         </tr>
         }
@@ -42,7 +42,7 @@
         $('[data-toggle="popOver"]').click(function (e) {
                 e.preventDefault();
             $(".deleteButton").click(function () {
-                    var data = { id: $(this).attr('hisId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                var data = { id: $(this).attr('commentId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
                 var button = $(this).parent().parent().parent().parent();
                 $.ajax({
                     type: "POST",
