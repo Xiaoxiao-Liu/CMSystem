@@ -20,6 +20,9 @@
         </th>
         <th></th>
     </tr>
+    @{
+        int counter = 1;
+    }
 
     @foreach (var item in Model)
     {
@@ -36,9 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ExpiryTime)
             </td>
-            <td>
-       
-            </td>
+            <td></td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |
@@ -47,8 +48,8 @@
                 <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-                   Comment
+                <button type="button" class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal" annoucementId="@item.AnnouncementId">
+                    Comment
                 </button>
 
                 <!-- Modal -->
@@ -59,36 +60,19 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel">Comment Here</h4>
                             </div>
+                            <div id="partialView"></div>
                             <div class="modal-body">
-                                Insert Partial View Here                            
-
-                                <script>
-                                    function CommentModels() {
-                                        var comment = this;
-                                        comment.AnnouncementId=@Html.Raw(Json.Encode(item.AnnouncementId));
-                                        comment.CommentContent=$('#commentContent').val();
-                                        comment.Anonymous=$('#anonymous').val();                                                                              
-                                    }
-
-                                    $('.newComment').click(function(){
-                                        var CommentModels=new CommentModels();
-                                        $.ajax({
-                                            type:"POST",
-                                            url:"@Url.Action("AJAXCreate", "Comment")",
-                                            data:{CommentModels, __RequestVerificationToken:$('input[name="__RequestVerificationToken"]').val() },
-                                            success: function(res){
-                                              
-                                            }
-                                        });
-                                    });
+                                Add Comments
+                                <input class="form-control commentContent" type="text">
+                                <label>
+                                    <input type="checkbox" class="anonymous">  Anonymous
+                                </label>
 
 
-
-                                </script>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" id="newComment" class="btn btn-primary">Save changes</button>
+                                <button type="button" val="@counter" class="btn btn-primary newCommentSubmit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -96,38 +80,74 @@
 
             </td>
         </tr>
+        counter++;
     }
 
 </table>
 
 <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover();
-            $('[data-toggle="popover"]').click(function (event) {
-                event.preventDefault();
-                $(".deleteButton").click(function () { 
-                    var data = { id: $(this).attr('myid'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
-                    var button = $(this).parent().parent().parent().parent();
-                    $.ajax({
-                        type:"POST",
-                        url: '/Announcement/AJAXDeleteConfirmed',
-                        data:data,
-                        success: function (result) {
-                            console.log("success");
-                            button.remove();
-                        }
-                    });
-                    //$(this).attr('myid') get announcement ID
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"]').click(function (event) {
+            event.preventDefault();
+            $(".deleteButton").click(function () {
+                var data = { id: $(this).attr('myid'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+                var button = $(this).parent().parent().parent().parent();
+                $.ajax({
+                    type: "POST",
+                    url: '/Announcement/AJAXDeleteConfirmed',
+                    data: data,
+                    success: function (result) {
+                        console.log("success");
+                        button.remove();
+                    }
                 });
-                $(".CloseButton").click(function () {
-                    $(this).popover('hide');
-                })
+                //$(this).attr('myid') get announcement ID
             });
-            //$('html').click(function (e) {
-            //    $('[data-toggle="popover"]').popover('hide');
-            //});
-        });       
+            $(".CloseButton").click(function () {
+                $(this).popover('hide');
+            })
+        });
+        //$('html').click(function (e) {
+        //    $('[data-toggle="popover"]').popover('hide');
+        //});
+    });
 </script>
 
 
+<script>
+    function CommentModels() {
+        var self = this;
+        self.CommentContent = $('.commentContent').val();
+        self.Anonymous = $('.anonymous').val();
+    }
+    $(function () {
+        $('.table').on("click", ".newCommentSubmit", function () {
+            var commentModels = new CommentModels();
+            var announcementId = $(".newCommentSubmit").attr("val");
+            console.log(announcementId);
+            console.log(commentModels);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AJAXCreate", "Comment")",
+                data: { commentModels, announcementId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                success: function (res) {
+                    $("#partialView").html(res);
+                }
+            });
+        });
 
+        $('.newCommentModal').click(function () {
+            var data = { id: $(this).attr('annoucementId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
+            $.ajax({
+                url: '/Comment/BuildCommentTable',
+                data: data,
+                success: function (res) {
+                    $("#partialView").html(res);
+                }
+
+            });
+        });
+    });
+
+</script>

@@ -1,6 +1,7 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,7 @@ namespace CMSystem.Models
 {
     public class Comment
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentId { get; set; }
         public virtual Announcement Announcement { get; set; }
         public virtual ApplicationUser User { get; set; }
@@ -22,8 +24,8 @@ namespace CMSystem.Models
 
         [Required]
         [Display(Name = "Comment Time")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH-mm}", ApplyFormatInEditMode = true)]
         public DateTime CommentTime { get; set; }
 
     }

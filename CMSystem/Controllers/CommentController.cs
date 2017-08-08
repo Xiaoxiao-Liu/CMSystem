@@ -80,18 +80,21 @@ namespace CMSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AJAXCreate([Bind(Include = "CommentId,CommentContent,Anonymous,CommentTime")] Comment comment)
+        public ActionResult AJAXCreate(Comment commentModels, int announcementId)
         {
-            if (ModelState.IsValid)
-            {
-                string currentUserId = User.Identity.GetUserId();
-                ApplicationUser currentUser = db.Users.FirstOrDefault
-                    (x => x.Id == currentUserId);
-                comment.User = currentUser;
-                db.Comment.Add(comment);
-                db.SaveChanges();
-              
-            }
+
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+            commentModels.User = currentUser;
+            Announcement Announcement = db.Announcement.FirstOrDefault
+                    (x => x.AnnouncementId == announcementId);
+            commentModels.Announcement = Announcement;
+            commentModels.CommentTime = DateTime.Now;
+            //commentModels.CommentId = 4;
+            db.Comment.Add(commentModels);
+            db.SaveChanges();
+
 
             return PartialView("_CommentTable", GetComment());
         }
