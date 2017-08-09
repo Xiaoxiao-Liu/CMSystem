@@ -26,9 +26,18 @@ namespace CMSystem.Controllers
             return View();
         }
 
+        public JsonResult GetEventJSON()
+        {
+            List<Event> eventList=db.Event.ToList();
+            //foreach (Event e in eventList)
+            //{
+            //    Debug.WriteLine();
+            //}
+            return Json(eventList, JsonRequestBehavior.AllowGet);
+        }
+
         private IEnumerable<Event> GetEvent()
         {
-            var a =db.Event.ToList();
             return db.Event.ToList();
         }
 

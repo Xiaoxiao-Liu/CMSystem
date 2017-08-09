@@ -23,12 +23,20 @@ namespace CMSystem
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/moment.min.js",
                       "~/Scripts/bootstrap-datetimepicker.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/fullcalendar.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                     "~/Scripts/fullcalendar/fullcalendar.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fullcalendar").Include(
+                    "~/Content/fullcalendar.css"));
+
         }
     }
 }

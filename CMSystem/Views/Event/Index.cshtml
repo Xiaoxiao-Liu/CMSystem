@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "Index";
 }
+@Styles.Render("~/Content/fullcalendar")
 
+<div id='calendar'></div>
 <div id="tableDivEvent"></div>
-
 <div id="eventCreateForm">
+
     @using (Ajax.BeginForm("AJAXCreate", "Event", new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
@@ -98,6 +100,7 @@
                 </div>
             </div>
         </div>
+
     }
 
 </div>
@@ -105,6 +108,7 @@
 @section Scripts{
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/fullcalendar")
 
     <script>
         $(function () {
@@ -113,13 +117,45 @@
             $.ajax({
                 url: '/Event/BuildEventTable',
                 success: function (res) {
-                    console.log(res);
                     $("#tableDivEvent").html(res);
                 }
             });
 
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                navLinks: true,
+                eventClick: function(event, element) {
+                    console.log(event.id);
+
+                },
+                events: function (start, end, timezone, callback) {
+                    $.ajax({
+                        url: '/Event/GetEventJSON',
+                        success: function (responseText) {
+                            var eventArray = [];
+                            responseText.forEach(function (element) {
+                                var obj = new Object();
+                                obj.id = element.EventId;
+                                obj.title = element.EventName;
+                                obj.start = moment(element.StartTime);
+                                obj.end = moment(element.EndTime);
+                                eventArray.push(obj);
+                            });
+                            callback(eventArray);
+                        }
+                    });
+                }
+            });
+
+
         });
 
-
     </script>
+
 }
