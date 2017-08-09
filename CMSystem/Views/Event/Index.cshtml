@@ -112,21 +112,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Comment Here</h4>
             </div>
-            <div id="partialView"></div>
-            <div class="modal-body">
-                Add Comments
-                <input class="form-control commentContent" id="commentContent" type="text">
-                <label>
-                    <input type="checkbox" class="anonymous" id="anonymous">  Anonymous
-                </label>
-
-
-            </div>
+            <div id="partialView"></div>            
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="newCommentSubmit">Submit</button>
+                <button type="button" class="btn btn-primary" id="newSignUp">Sign up</button>
             </div>
         </div>
     </div>
@@ -147,10 +137,10 @@
                     $("#tableDivEvent").html(res);
                 }
             });
-         
+
 
             $('#calendar').fullCalendar({
-                                     
+
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -162,9 +152,8 @@
                 selectable: true,
                 selectHelper: true,
                 editable: true,
-                eventClick: function(event, element) {
+                eventClick: function (event, element) {
                     var eventId = event.id;
-                    console.log(eventId);
                     var data = { eventId: eventId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
                     $.ajax({
                         type: "POST",
@@ -174,8 +163,23 @@
                             $("#partialView").html(res);
                             $('#myModal').modal('show');
                         }
-                    })
+                    });
+                    $('#myModal').on("click", "#newSignUp", function () {
+
+                        $.ajax({
+                            type: "POST",
+                            url: '/Event/AJAXCreateSignUp',
+                            data: data,
+                            success: function (abc) {
+                                console.log("success");
+
+                            }
+                        })
+
+                    });
                 },
+
+
                 events: function (start, end, timezone, callback) {
                     $.ajax({
                         url: '/Event/GetEventJSON',
@@ -194,13 +198,17 @@
                     });
                 },
 
-                dayClick:function (){
+                dayClick: function (event, element) {
+
+
                     alert('a day has been clicked!');
-                    
-                },                
+
+                },
 
             });
-        })
+         
+              
+        });
     </script>
 
 }
