@@ -15,7 +15,8 @@ namespace CMSystem.Models
         [Required]
         [Display(Name = "SignUp Time")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime SignUpTime { get; set; }
+
     }
 }

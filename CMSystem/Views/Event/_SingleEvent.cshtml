@@ -1,0 +1,72 @@
+﻿@model CMSystem.Models.Event
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th></th>
+    </tr>
+
+   
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.EventDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.CreationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Deadline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+                @Html.ActionLink("Details", "Details", new { id = Model.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.EventId })
+            </td>
+        </tr>
+    
+
+</table>

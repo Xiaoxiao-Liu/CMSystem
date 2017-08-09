@@ -28,7 +28,7 @@ namespace CMSystem.Controllers
 
         public JsonResult GetEventJSON()
         {
-            List<Event> eventList=db.Event.ToList();
+            List<Event> eventList = db.Event.ToList();
             //foreach (Event e in eventList)
             //{
             //    Debug.WriteLine();
@@ -46,6 +46,12 @@ namespace CMSystem.Controllers
             return PartialView("_EventTable", GetEvent());
         }
 
+        public ActionResult GetOneEvent(int eventId)
+        {
+            Event @event = db.Event.FirstOrDefault(y => y.EventId == eventId);
+
+            return PartialView("_SingleEvent", @event);
+        }
 
         // GET: Event/Details/5
         public ActionResult Details(int? id)
@@ -99,8 +105,36 @@ namespace CMSystem.Controllers
                 @event.User = currentUser;
 
                 db.Event.Add(@event);
-                db.SaveChanges();               
+                db.SaveChanges();
             }
+
+            return PartialView("_EventTable", GetEvent());
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
+        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
+        public ActionResult AJAXCreateSignUp(int EventId)
+        {
+
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+            Event @event = db.Event.FirstOrDefault(y => y.EventId == EventId);
+            //SQL: select * from Event where EventId = EventId;
+
+            EventSignUp e = new EventSignUp();
+            e.Customer = currentUser;
+
+            e.Event = @event;
+
+            //e.Event= the event
+            e.SignUpTime = DateTime.Now;
+            db.EventSignUp.Add(e);
+            db.SaveChanges();
+
 
             return PartialView("_EventTable", GetEvent());
         }

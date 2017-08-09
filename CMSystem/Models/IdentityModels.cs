@@ -44,6 +44,8 @@ namespace CMSystem.Models
         public System.Data.Entity.DbSet<CMSystem.Models.Comment> Comment { get; set; }
 
         public System.Data.Entity.DbSet<CMSystem.Models.Event> Event { get; set; }
+
+        public System.Data.Entity.DbSet<CMSystem.Models.EventSignUp> EventSignUp { get; set; }
     }
     
 }

@@ -218,6 +218,7 @@
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\EventSignUpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,6 +255,10 @@
     <Compile Include="Migrations\201708082114010_deleteAnnouncement.cs" />
     <Compile Include="Migrations\201708082114010_deleteAnnouncement.Designer.cs">
       <DependentUpon>201708082114010_deleteAnnouncement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708091818285_eventSignUpController-adding.cs" />
+    <Compile Include="Migrations\201708091818285_eventSignUpController-adding.Designer.cs">
+      <DependentUpon>201708091818285_eventSignUpController-adding.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -524,7 +529,12 @@
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\_EventTable.cshtml" />
-    <Content Include="Views\Event\_FullCalendar.cshtml" />
+    <Content Include="Views\EventSignUp\Create.cshtml" />
+    <Content Include="Views\EventSignUp\Delete.cshtml" />
+    <Content Include="Views\EventSignUp\Details.cshtml" />
+    <Content Include="Views\EventSignUp\Edit.cshtml" />
+    <Content Include="Views\EventSignUp\Index.cshtml" />
+    <Content Include="Views\Event\_SingleEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -559,6 +569,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708082114010_deleteAnnouncement.resx">
       <DependentUpon>201708082114010_deleteAnnouncement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708091818285_eventSignUpController-adding.resx">
+      <DependentUpon>201708091818285_eventSignUpController-adding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
