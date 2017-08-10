@@ -218,7 +218,6 @@
     <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="Controllers\EventSignUpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -529,11 +528,6 @@
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\_EventTable.cshtml" />
-    <Content Include="Views\EventSignUp\Create.cshtml" />
-    <Content Include="Views\EventSignUp\Delete.cshtml" />
-    <Content Include="Views\EventSignUp\Details.cshtml" />
-    <Content Include="Views\EventSignUp\Edit.cshtml" />
-    <Content Include="Views\EventSignUp\Index.cshtml" />
     <Content Include="Views\Event\_SingleEvent.cshtml" />
     <Content Include="Views\Event\_EventCreation.cshtml" />
   </ItemGroup>

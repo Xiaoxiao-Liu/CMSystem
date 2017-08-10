@@ -79,10 +79,11 @@ namespace CMSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,CreationTime,Deadline,Capacity,Role")] Event @event)
+        public ActionResult Create([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity,Role")] Event @event)
         {
             if (ModelState.IsValid)
             {
+                @event.CreationTime = DateTime.Today;
                 db.Event.Add(@event);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -95,21 +96,22 @@ namespace CMSystem.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
-        public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,CreationTime,Deadline,Capacity,Role")] Event @event)
+        public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity,Role")] Event @event)
         {
-            if (ModelState.IsValid)
-            {
+           
                 string currentUserId = User.Identity.GetUserId();
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId);
-                @event.User = currentUser;
 
+                @event.User = currentUser;
+                @event.CreationTime = DateTime.Today;
                 db.Event.Add(@event);
                 db.SaveChanges();
-            }
+            
 
             return PartialView("_EventTable", GetEvent());
         }
+
 
 
         [HttpPost]

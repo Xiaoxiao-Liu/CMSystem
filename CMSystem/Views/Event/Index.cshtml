@@ -15,6 +15,7 @@
         HttpMethod = "POST",
         UpdateTargetId = "tableDivEvent"
     }))
+
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -61,15 +62,7 @@
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreationTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreationTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreationTime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
+       
             <div class="form-group">
                 @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -102,9 +95,7 @@
         </div>
 
     }
-
 </div>
-
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -131,12 +122,12 @@
         $(function () {
             $('input[type="datetime-picker"]').datetimepicker();
 
-            $.ajax({
-                url: '/Event/BuildEventTable',
-                success: function (res) {
-                    $("#tableDivEvent").html(res);
-                }
-            });
+            //$.ajax({
+            //    url: '/Event/BuildEventTable',
+            //    success: function (res) {
+            //       // $("#tableDivEvent").html(res);
+            //    }
+            //});
 
 
             $('#calendar').fullCalendar({
@@ -171,7 +162,6 @@
                             url: '/Event/AJAXCreateSignUp',
                             data: data,
                             success: function (abc) {
-                                console.log("success");
 
                             }
                         })
@@ -198,12 +188,7 @@
                     });
                 },
 
-                dayClick: function (event, element) {
-
-
-                    alert('a day has been clicked!');
-
-                },
+               
 
             });
          
