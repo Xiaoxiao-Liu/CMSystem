@@ -63,7 +63,7 @@ namespace CMSystem.Controllers
             ViewData["Number"] = countSignUp;
             return PartialView("_SingleEvent", @event);
         }
-      
+
 
         // GET: Event/Details/5
         public ActionResult Details(int? id)
@@ -109,18 +109,18 @@ namespace CMSystem.Controllers
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity")] Event @event)
         {
-           
-                string currentUserId = User.Identity.GetUserId();
-                ApplicationUser currentUser = db.Users.FirstOrDefault
-                    (x => x.Id == currentUserId);
 
-                count = @event.EventId;
-                @event.User = currentUser;
-                @event.CreationTime = DateTime.Today;
-                @event.Role = 1;
-                db.Event.Add(@event);
-                db.SaveChanges();
-             return PartialView("_EventTable", GetEvent());
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+
+            count = @event.EventId;
+            @event.User = currentUser;
+            @event.CreationTime = DateTime.Today;
+            @event.Role = 1;
+            db.Event.Add(@event);
+            db.SaveChanges();
+            return PartialView("_EventTable", GetEvent());
         }
 
 
@@ -226,6 +226,18 @@ namespace CMSystem.Controllers
             db.Event.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXDeleteConfirmed(int eventId)
+        {
+            Event @event = db.Event.Find(eventId);
+            db.EventSignUp.RemoveRange(db.EventSignUp.Where(x => x.Event.EventId == eventId));
+            db.Event.Remove(@event);
+            db.SaveChanges();
+
+            return PartialView("_EventTable", GetEvent());
         }
 
         protected override void Dispose(bool disposing)

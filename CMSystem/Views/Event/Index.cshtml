@@ -5,7 +5,7 @@
 }
 @Styles.Render("~/Content/fullcalendar")
 
-    <div id='calendar'>
+<div id='calendar'>
     <div id="tableDivEvent"></div>
 
     <div id="eventCreateForm">
@@ -14,6 +14,7 @@
         {
             InsertionMode = InsertionMode.Replace,
             HttpMethod = "POST",
+            OnSuccess = "$('#calendar').fullCalendar('refetchEvents');"
             //UpdateTargetId = "tableDivEvent"
         }))
 
@@ -81,12 +82,12 @@
                 </div>
 
                 @*<div class="form-group">
-                    @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
+                        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -99,20 +100,21 @@
     </div>
 </div>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div id="partialView"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="newSignUp">Sign up</button>
-                </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div id="partialView"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="newSignUp">Sign up</button>
+                <a href="#" id="deletePopover" data-toggle="popover" title="Delete this events?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
             </div>
         </div>
     </div>
+</div>
 
 
 
@@ -128,13 +130,12 @@
             $.ajax({
                 url: '/Event/BuildEventTable',
                 success: function (res) {
-                   // $("#tableDivEvent").html(res);
+                    // $("#tableDivEvent").html(res);
                 }
             });
-
+            //$('#calendar').fullCalendar('updateEvents', events);
 
             $('#calendar').fullCalendar({
-
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -160,7 +161,6 @@
                     });
 
                     $('#myModal').on("click", "#newSignUp", function () {
-
                         $.ajax({
                             type: "POST",
                             url: '/Event/AJAXCreateSignUp',
@@ -172,14 +172,33 @@
                         })
                     });
 
-                    $('#calendar').fullCalendar('updateEvent', event);
+
+                    $('[data-toggle="popover"]').popover();
+                    $('#deletePopover').click(function () {
+                        alert(eventId);
+                        $(".deleteButton").click(function () {
+                            $.ajax({
+                                type: "POST",
+                                url: '/Event/AJAXDeleteConfirmed',
+                                data: data,
+                                success: function () {
+                                    console.log("success");
+                                    $('#calendar').fullCalendar('removeEvents', eventId);
+                                    $('#myModal').modal('hide');
+                                    $("[data-toggle='popover']").popover('destroy');
+                                }
+                            });
+                            //$(this).attr('myid') get announcement ID
+                        });
+                        $(".CloseButton").click(function () {
+                            $(this).popover('destroy');
+                        })
+                    });
 
                 },
 
 
                 events: function (start, end, timezone, callback) {
-                   
-
                     $.ajax({
                         url: '/Event/GetEventJSON',
                         success: function (responseText) {
@@ -196,43 +215,9 @@
                         }
                     });
 
-                        $('#eventCreateForm').on("click", ".createButton", function () {
-                            $.ajax({
-                                url: '/Event/GetEventJSON',
-                                success: function (responseText) {
-                                    var eventArray = [];
-                                    responseText.forEach(function (element) {
-                                        console.log(element);
-                                        var obj = new Object();
-                                        obj.id = element.EventId;
-                                        obj.title = element.EventName;
-                                        obj.start = moment(element.StartTime);
-                                        obj.end = moment(element.EndTime);
-                                        eventArray.push(obj);
-                                    });
-                                    callback(eventArray);
-                                    //$('#calendar').fullCalendar( 'renderEvent', event [, stick ] )
-                                }
-
-                            });
-                            //$('#calendar').fullCalendar('updateEvent', event);
-
-                        });
-                       
-                        
-                       
-
-                       
-                   
-
                 },
-
-
-                
-
             });
-         
-              
+
         });
     </script>
 
