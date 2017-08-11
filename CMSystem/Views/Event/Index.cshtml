@@ -125,6 +125,7 @@
 
     <script>
         $(function () {
+            var eventId = null;
             $('input[type="datetime-picker"]').datetimepicker();
 
             $.ajax({
@@ -134,6 +135,17 @@
                 }
             });
             //$('#calendar').fullCalendar('updateEvents', events);
+
+            $('[data-toggle="popover"]').popover();
+
+            $('#myModal').on("click", ".deleteButton", function () {
+                deleteEvent(eventId);
+                $('[data-toggle="popover"]').popover('hide');
+            });
+
+            $('#myModal').on("click", ".CloseButton", function () {
+                $(this).popover('hide');
+            })
 
             $('#calendar').fullCalendar({
                 header: {
@@ -148,7 +160,7 @@
                 selectHelper: true,
                 editable: true,
                 eventClick: function (event, element) {
-                    var eventId = event.id;
+                    eventId = event.id;
                     var data = { eventId: eventId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
                     $.ajax({
                         type: "POST",
@@ -169,29 +181,6 @@
                                 $("#partialView").html(abc);
                                 $('#myModal').modal('show');
                             }
-                        })
-                    });
-
-
-                    $('[data-toggle="popover"]').popover();
-                    $('#deletePopover').click(function () {
-                        alert(eventId);
-                        $(".deleteButton").click(function () {
-                            $.ajax({
-                                type: "POST",
-                                url: '/Event/AJAXDeleteConfirmed',
-                                data: data,
-                                success: function () {
-                                    console.log("success");
-                                    $('#calendar').fullCalendar('removeEvents', eventId);
-                                    $('#myModal').modal('hide');
-                                    $("[data-toggle='popover']").popover('destroy');
-                                }
-                            });
-                            //$(this).attr('myid') get announcement ID
-                        });
-                        $(".CloseButton").click(function () {
-                            $(this).popover('destroy');
                         })
                     });
 
@@ -219,6 +208,19 @@
             });
 
         });
+
+
+        function deleteEvent(eventId) {
+            $.ajax({
+                type: "POST",
+                url: '/Event/AJAXDeleteConfirmed',
+                data: { eventId: eventId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                success: function () {
+                    $('#calendar').fullCalendar('removeEvents', eventId);
+                    $('#myModal').modal('hide');
+                }
+            });
+        }
     </script>
 
 }

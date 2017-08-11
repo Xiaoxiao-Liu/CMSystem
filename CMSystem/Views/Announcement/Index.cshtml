@@ -5,7 +5,8 @@
 }
 
 <div id="tableDiv"></div>
-
+@if (User.IsInRole("Member"))
+{
 <div id="announcementCreateForm">
     @using (Ajax.BeginForm("AJAXCreate", "Announcement", new AjaxOptions
     {
@@ -69,6 +70,7 @@
         </div>
     }
 </div>
+}
 
 
 
