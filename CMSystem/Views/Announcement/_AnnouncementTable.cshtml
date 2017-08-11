@@ -15,10 +15,10 @@
         <th>
             @Html.DisplayNameFor(model => model.ExpiryTime)
         </th>
+
+        
         <th>
-            @Html.DisplayNameFor(model => model.Role)
         </th>
-        <th></th>
     </tr>
     @{
         int counter = 1;
@@ -41,11 +41,9 @@
             </td>
             <td></td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |
-                @*<a href="/Announcement/Delete/@item.AnnouncementId" data-toggle="popover" data-content="abcdefg" data-placement="auto right">Delete</a>*@
-                @*<a href="#" class="btn btn-sm btn-danger" title="Confirmation" data-toggle="popover" data-placement="auto right" data-trigger="focus" data-html="true" data-content='<a class="btn btn-sm btn-danger deleteQuestion" rowno="@counter" value="@question.ID">Yes</a><a class="btn btn-sm btn-success popoverClose pull-right" >No</a>'>Delete</a>*@
-                <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |*@
+              <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal-@item.AnnouncementId" annoucementId="@item.AnnouncementId">
@@ -147,6 +145,7 @@
                 url: '/Comment/BuildCommentTable',
                 data: data,
                 success: function (res) {
+
                     $("#partialView-" + announcementId).html(res);
                 }
             });

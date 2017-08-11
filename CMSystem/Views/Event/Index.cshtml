@@ -5,113 +5,116 @@
 }
 @Styles.Render("~/Content/fullcalendar")
 
-<div id='calendar'></div>
-<div id="tableDivEvent"></div>
+    <div id='calendar'>
+    <div id="tableDivEvent"></div>
 
-<div id="eventCreateForm">
-    @using (Ajax.BeginForm("AJAXCreate", "Event", new AjaxOptions
-    {
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "POST",
-        UpdateTargetId = "tableDivEvent"
-    }))
+    <div id="eventCreateForm">
 
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-horizontal">
-            <h4>Event</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+        @using (Ajax.BeginForm("AJAXCreate", "Event", new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            //UpdateTargetId = "tableDivEvent"
+        }))
+
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <h4>Event</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EventDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EventDescription, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EventDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
+                        @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
+                        @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
+                        @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default createButton" />
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.EventDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EventDescription, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EventDescription, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
-                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
-                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                </div>
-            </div>
-       
-            <div class="form-group">
-                @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "datetime-picker" } })
-                    @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-
-    }
+        }
+    </div>
 </div>
 
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div id="partialView"></div>            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="newSignUp">Sign up</button>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div id="partialView"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="newSignUp">Sign up</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+
 
 @section Scripts{
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -122,12 +125,12 @@
         $(function () {
             $('input[type="datetime-picker"]').datetimepicker();
 
-            //$.ajax({
-            //    url: '/Event/BuildEventTable',
-            //    success: function (res) {
-            //       // $("#tableDivEvent").html(res);
-            //    }
-            //});
+            $.ajax({
+                url: '/Event/BuildEventTable',
+                success: function (res) {
+                   // $("#tableDivEvent").html(res);
+                }
+            });
 
 
             $('#calendar').fullCalendar({
@@ -155,6 +158,7 @@
                             $('#myModal').modal('show');
                         }
                     });
+
                     $('#myModal').on("click", "#newSignUp", function () {
 
                         $.ajax({
@@ -162,15 +166,20 @@
                             url: '/Event/AJAXCreateSignUp',
                             data: data,
                             success: function (abc) {
-
+                                $("#partialView").html(abc);
+                                $('#myModal').modal('show');
                             }
                         })
-
                     });
+
+                    $('#calendar').fullCalendar('updateEvent', event);
+
                 },
 
 
                 events: function (start, end, timezone, callback) {
+                   
+
                     $.ajax({
                         url: '/Event/GetEventJSON',
                         success: function (responseText) {
@@ -186,9 +195,40 @@
                             callback(eventArray);
                         }
                     });
+
+                        $('#eventCreateForm').on("click", ".createButton", function () {
+                            $.ajax({
+                                url: '/Event/GetEventJSON',
+                                success: function (responseText) {
+                                    var eventArray = [];
+                                    responseText.forEach(function (element) {
+                                        console.log(element);
+                                        var obj = new Object();
+                                        obj.id = element.EventId;
+                                        obj.title = element.EventName;
+                                        obj.start = moment(element.StartTime);
+                                        obj.end = moment(element.EndTime);
+                                        eventArray.push(obj);
+                                    });
+                                    callback(eventArray);
+                                    //$('#calendar').fullCalendar( 'renderEvent', event [, stick ] )
+                                }
+
+                            });
+                            //$('#calendar').fullCalendar('updateEvent', event);
+
+                        });
+                       
+                        
+                       
+
+                       
+                   
+
                 },
 
-               
+
+                
 
             });
          

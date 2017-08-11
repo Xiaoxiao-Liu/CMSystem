@@ -1,5 +1,29 @@
 ﻿@model CMSystem.Models.Event
 
+
+<div id="progressPercentage">
+    @if (ViewBag.Percent == 0)
+    {
+       <p>Welcome to sign up !</p>
+    }
+    else if(ViewBag.Percent >= 100)
+    {
+        <p>Oooops! Better come earlier next time!</p>
+        <p> @(ViewData["Number"]) people have signed up!!</p>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" bg-danger
+                 style="width:100%"></div>
+        </div>
+    }else
+    {
+        <p> @(ViewData["Number"])% people have signed up!!</p>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar"
+                 style="width:@(Html.AttributeEncode(ViewBag.Percent))%"></div>
+        </div>
+    }    
+</div>
+
 <table class="table">
 
     <tr>
@@ -51,11 +75,11 @@
     </tr>
 
 
-    <tr>
+    @*<tr>
         <td>@Html.DisplayNameFor(model => model.Capacity)</td>
 
         <td>@Html.DisplayFor(modelItem => modelItem.Capacity)</td>
-    </tr>
+    </tr>*@
 
 
     

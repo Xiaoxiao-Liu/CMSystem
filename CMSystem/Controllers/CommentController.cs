@@ -28,7 +28,17 @@ namespace CMSystem.Controllers
 
         private IEnumerable<Comment> GetComment(Announcement Announcement)
         {
-            return db.Comment.Where(x => x.Announcement.AnnouncementId == Announcement.AnnouncementId).ToList();
+            IEnumerable<Comment> myComment = db.Comment.Where(x => x.Announcement.AnnouncementId == Announcement.AnnouncementId).ToList();
+            int countComment = 0;
+            foreach (Comment comment in myComment)
+            {
+                countComment++;
+            }
+
+            ViewData["CommentNumber"] = countComment;
+
+            return myComment;
+
         }
 
         [HttpPost]
@@ -66,7 +76,7 @@ namespace CMSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CommentId,CommentContent,Anonymous,CommentTime")] Comment comment)
+        public ActionResult Create([Bind(Include = "CommentId,CommentContent,Anonymous")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -74,6 +84,8 @@ namespace CMSystem.Controllers
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId);
                 comment.User = currentUser;
+                comment.CommentTime = DateTime.Now;
+
                 db.Comment.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

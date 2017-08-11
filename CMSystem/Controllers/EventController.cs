@@ -18,6 +18,7 @@ namespace CMSystem.Controllers
     [ClaimsAuthorize(ClaimTypes.Role, "Member, Customer")]
     public class EventController : Controller
     {
+        private int count = 0;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Event
@@ -49,9 +50,20 @@ namespace CMSystem.Controllers
         public ActionResult GetOneEvent(int eventId)
         {
             Event @event = db.Event.FirstOrDefault(y => y.EventId == eventId);
+            IEnumerable<EventSignUp> EventSignUp = db.EventSignUp.Where(x => x.Event.EventId == @event.EventId).ToList();
 
+            int countSignUp = 0;
+            foreach (EventSignUp eventSignUp in EventSignUp)
+            {
+                countSignUp++;
+            }
+
+            ViewBag.Percent = Math.Round(100f * ((float)countSignUp / (float)@event.Capacity));
+
+            ViewData["Number"] = countSignUp;
             return PartialView("_SingleEvent", @event);
         }
+      
 
         // GET: Event/Details/5
         public ActionResult Details(int? id)
@@ -93,24 +105,42 @@ namespace CMSystem.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
-        public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity,Role")] Event @event)
+        public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity")] Event @event)
         {
            
                 string currentUserId = User.Identity.GetUserId();
                 ApplicationUser currentUser = db.Users.FirstOrDefault
                     (x => x.Id == currentUserId);
 
+                count = @event.EventId;
                 @event.User = currentUser;
                 @event.CreationTime = DateTime.Today;
+                @event.Role = 1;
                 db.Event.Add(@event);
                 db.SaveChanges();
-            
-
-            return PartialView("_EventTable", GetEvent());
+             return PartialView("_EventTable", GetEvent());
         }
+
+
+        //[HttpPost]
+        //[Authorize(Roles = "Member")]
+        //[ClaimsAuthorize(ClaimTypes.Role, "Member")]
+        //public JsonResult AJAXCreateNewEvent([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity,Role")] Event @event)
+        //{
+        //    string currentUserId = User.Identity.GetUserId();
+        //    ApplicationUser currentUser = db.Users.FirstOrDefault
+        //        (x => x.Id == currentUserId);
+
+        //    count = @event.EventId;
+        //    @event.User = currentUser;
+        //    @event.CreationTime = DateTime.Today;
+        //    db.Event.Add(@event);
+        //    db.SaveChanges();
+        //    List<Event> eventList = db.Event.ToList();
+        //    return Json(eventList, JsonRequestBehavior.AllowGet);
+        //}
 
 
 
@@ -137,8 +167,8 @@ namespace CMSystem.Controllers
             db.EventSignUp.Add(e);
             db.SaveChanges();
 
-
-            return PartialView("_EventTable", GetEvent());
+            GetOneEvent(EventId);
+            return PartialView("_SingleEvent", @event);
         }
 
         // GET: Event/Edit/5

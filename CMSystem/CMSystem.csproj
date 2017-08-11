@@ -529,7 +529,6 @@
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\_EventTable.cshtml" />
     <Content Include="Views\Event\_SingleEvent.cshtml" />
-    <Content Include="Views\Event\_EventCreation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<CMSystem.Models.Comment>
 
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CommentContent)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Anonymous)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.CommentTime)
         </th>
@@ -16,30 +17,35 @@
 
     @foreach (var item in Model)
         {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CommentContent)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Anonymous)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CommentTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CommentId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |
-                <a href="#" data-toggle="popOver" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' commentId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+                @*@html.actionlink("edit", "edit", new { id = item.commentid }) |
+                @html.actionlink("details", "details", new { id = item.commentid }) |*@
+                <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' commentId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
             </td>
         </tr>
         }
 
 </table>
 
+<div id="DisplayCommentNumber">
+    <p style="color:gainsboro">@(ViewData["CommentNumber"]) Comments</p>
+</div>
+
 <script>
     $(function () {
-        $('[data-toggle="popOver"]').popover();
-        $('[data-toggle="popOver"]').click(function (e) {
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"]').click(function (e) {
                 e.preventDefault();
             $(".deleteButton").click(function () {
                 var data = { id: $(this).attr('commentId'), __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() };
