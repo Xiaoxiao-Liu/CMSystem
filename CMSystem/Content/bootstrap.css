@@ -52,6 +52,7 @@ template {
 }
 a {
   background-color: transparent;
+
 }
 a:active,
 a:hover {
@@ -1087,7 +1088,7 @@ html {
 }
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.42857143;
   color: #777777;
   background-color: #fcfcfc;
@@ -1101,8 +1102,10 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #d9230f;
+  color: #444444;
   text-decoration: none;
+  font-family: Times New Roman, serif;
+  font-size: 25px;
 }
 a:hover,
 a:focus {
@@ -3060,7 +3063,8 @@ a.btn.disabled,
 fieldset[disabled] a.btn {
   pointer-events: none;
 }
-.btn-default {
+.btn-default {    
+  opacity: 0.5;
   color: #ffffff;
   background-color: #474949;
   border-color: #474949;
@@ -4279,9 +4283,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-brand {
   float: left;
   padding: 11px 15px;
-  font-size: 17px;
+  font-size: 30px;
   line-height: 18px;
   height: 40px;
+  font-family:'Jazz LET, fantasy Medium',  Arial, sans-serif;
+  font-weight: bold;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -6902,4 +6908,16 @@ label {
 }
 .pager .disabled > a {
   border-color: #dddddd;
+}
+
+#cover{
+    height: 900px;
+    position: relative;
+    top: -15px;
+    width: 100%;
+    display: block;
+    background-image: url("freestocks-org-229658.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+     background-attachment:fixed;
 }

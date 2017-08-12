@@ -41,10 +41,12 @@
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |*@
-              <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
-
+@if (User.IsInRole("Member"))
+{
+              <button href="#" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</button>
+}
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal-@item.AnnouncementId" annoucementId="@item.AnnouncementId">
+                <button type="button"  class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal-@item.AnnouncementId" annoucementId="@item.AnnouncementId">
                     Comment
                 </button>
 

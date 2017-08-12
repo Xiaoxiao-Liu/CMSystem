@@ -154,9 +154,12 @@ namespace CMSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
+        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXDeleteConfirmed(int id)
-        {
+        {           
             Announcement announcement = db.Announcement.Find(id);
+            db.Comment.RemoveRange(db.Comment.Where(x => x.Announcement.AnnouncementId == id));
             db.Announcement.Remove(announcement);
             db.SaveChanges();
             return PartialView("_AnnouncementTable", GetAnnouncement());

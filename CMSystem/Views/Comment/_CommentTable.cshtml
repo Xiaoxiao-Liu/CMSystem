@@ -31,7 +31,7 @@
             <td>
                 @*@html.actionlink("edit", "edit", new { id = item.commentid }) |
                 @html.actionlink("details", "details", new { id = item.commentid }) |*@
-                <a href="#" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' commentId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</a>
+                <button href="#" class="btn btn-default btn-sm " data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' commentId='@item.CommentId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</button>
             </td>
         </tr>
         }

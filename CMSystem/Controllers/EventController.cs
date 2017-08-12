@@ -124,30 +124,9 @@ namespace CMSystem.Controllers
         }
 
 
-        //[HttpPost]
-        //[Authorize(Roles = "Member")]
-        //[ClaimsAuthorize(ClaimTypes.Role, "Member")]
-        //public JsonResult AJAXCreateNewEvent([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity,Role")] Event @event)
-        //{
-        //    string currentUserId = User.Identity.GetUserId();
-        //    ApplicationUser currentUser = db.Users.FirstOrDefault
-        //        (x => x.Id == currentUserId);
-
-        //    count = @event.EventId;
-        //    @event.User = currentUser;
-        //    @event.CreationTime = DateTime.Today;
-        //    db.Event.Add(@event);
-        //    db.SaveChanges();
-        //    List<Event> eventList = db.Event.ToList();
-        //    return Json(eventList, JsonRequestBehavior.AllowGet);
-        //}
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Member")]
-        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
+        
         public ActionResult AJAXCreateSignUp(int EventId)
         {
 
@@ -230,6 +209,8 @@ namespace CMSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
+        [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXDeleteConfirmed(int eventId)
         {
             Event @event = db.Event.Find(eventId);

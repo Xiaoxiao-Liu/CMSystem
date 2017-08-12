@@ -173,6 +173,7 @@ namespace CMSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult AJAXDeleteConfirmed(int id)
         {
             
