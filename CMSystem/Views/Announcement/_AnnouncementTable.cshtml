@@ -8,13 +8,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AnnouncementContent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnoucingTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ExpiryTime)
-        </th>        
+        </th>          
         <th>
             Options
         </th>
@@ -29,27 +23,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AnnouncementTitle)
             </td>
-            <td>
+            <td style="width:40em;">
                 @Html.DisplayFor(modelItem => item.AnnouncementContent)
             </td>
+           
             <td>
-                @Html.DisplayFor(modelItem => item.AnnoucingTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpiryTime)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.AnnouncementId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.AnnouncementId }) |*@
+               
 @if (User.IsInRole("Member"))
 {
-              <button href="#" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-info deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-info CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</button>
+              <button href="#" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Are you sure?" data-trigger="focus" data-content="<button class='btn btn-sm btn-default deleteButton' myid='@item.AnnouncementId'>Yes</button><button class='btn btn-sm btn-default CloseButton pull-right'>No</button>" data-html="true" data-placement="auto right">Delete</button>
 }
                 <!-- Button trigger modal -->
                 <button type="button"  class="btn btn-primary btn-sm newCommentModal" data-toggle="modal" data-target="#myModal-@item.AnnouncementId" annoucementId="@item.AnnouncementId">
                     Comment
                 </button>
-
                 <!-- Modal -->
                 <div class="modal fade" id="myModal-@item.AnnouncementId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
@@ -82,9 +69,10 @@
     }
 
 </table>
-
+                
+<!-- Delete the annoucement -->
 <script>
-    $(function () {
+    $(function () { 
         $('[data-toggle="popover"]').popover();
         $('[data-toggle="popover"]').click(function (event) {
             event.preventDefault();
@@ -100,27 +88,21 @@
                         button.remove();
                     }
                 });
-                //$(this).attr('myid') get announcement ID
             });
             $(".CloseButton").click(function () {
                 $(this).popover('hide');
             })
-        });
-        //$('html').click(function (e) {
-        //    $('[data-toggle="popover"]').popover('hide');
-        //});
+        });        
     });
 </script>
 
-
+<!--Trigger the "AJAXCreate" method in comment controller and create comment.-->
 <script>
     function CommentModels(announcementId) {
         var self = this;
         self.CommentContent = $('#commentContent-' + announcementId).val();
         self.Anonymous = $('#anonymous-' + announcementId).val();
     }
-
-
     $(function () {
         $('.table').on("click", ".newCommentSubmit", function () {
             var announcementId = $(this).attr("annoucementId");
@@ -145,11 +127,9 @@
                 url: '/Comment/BuildCommentTable',
                 data: data,
                 success: function (res) {
-
                     $("#partialView-" + announcementId).html(res);
                 }
             });
         });
     });
-
 </script>

@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMSystem.Models;
-using WebApplication.Attribute;
+using CMSystem.Attribute;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
@@ -27,13 +27,10 @@ namespace CMSystem.Controllers
             return View();
         }
 
+        // Return the event objects as a list in Json.
         public JsonResult GetEventJSON()
         {
             List<Event> eventList = db.Event.ToList();
-            //foreach (Event e in eventList)
-            //{
-            //    Debug.WriteLine();
-            //}
             return Json(eventList, JsonRequestBehavior.AllowGet);
         }
 
@@ -47,6 +44,7 @@ namespace CMSystem.Controllers
             return PartialView("_EventTable", GetEvent());
         }
 
+        //Get one event and return a partial view with the event data
         public ActionResult GetOneEvent(int eventId)
         {
             Event @event = db.Event.FirstOrDefault(y => y.EventId == eventId);
@@ -109,7 +107,6 @@ namespace CMSystem.Controllers
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXCreate([Bind(Include = "EventId,EventName,EventDescription,StartTime,EndTime,Location,Deadline,Capacity")] Event @event)
         {
-
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (x => x.Id == currentUserId);
@@ -129,23 +126,17 @@ namespace CMSystem.Controllers
         
         public ActionResult AJAXCreateSignUp(int EventId)
         {
-
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (x => x.Id == currentUserId);
             Event @event = db.Event.FirstOrDefault(y => y.EventId == EventId);
             //SQL: select * from Event where EventId = EventId;
-
             EventSignUp e = new EventSignUp();
             e.Customer = currentUser;
-
             e.Event = @event;
-
-            //e.Event= the event
             e.SignUpTime = DateTime.Now;
             db.EventSignUp.Add(e);
             db.SaveChanges();
-
             GetOneEvent(EventId);
             return PartialView("_SingleEvent", @event);
         }

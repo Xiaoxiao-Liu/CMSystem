@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Web.Mvc;
 
-namespace WebApplication.Attribute
+namespace CMSystem.Attribute
 {
     
     public class ClaimsAuthorizeAttribute : AuthorizeAttribute

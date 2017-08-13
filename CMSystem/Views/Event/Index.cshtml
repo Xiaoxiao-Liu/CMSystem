@@ -123,14 +123,7 @@
         $(function () {
             var eventId = null;
             $('input[type="datetime-picker"]').datetimepicker();
-            //$.ajax({
-            //    url: '/Event/BuildEventTable',
-            //    success: function (res) {
-            //        // $("#tableDivEvent").html(res);
-            //    }
-            //});
-            //$('#calendar').fullCalendar('updateEvents', events);
-
+   
             $('[data-toggle="popover"]').popover();
             $('#myModal').on("click", ".deleteButton", function () {
                 deleteEvent(eventId);
@@ -174,7 +167,6 @@
                             success: function (abc) {
                                 $("#partialView").html(abc);
                                 $('#myModal').modal('show');
-                                //$("#newSignUp").prop('disabled', true);
                             }
                         })
                     });

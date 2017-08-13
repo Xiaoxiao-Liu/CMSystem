@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using CMSystem.Models;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
-using WebApplication.Attribute;
+using CMSystem.Attribute;
 using System.Security.Claims;
 
 namespace CMSystem.Controllers
@@ -98,7 +98,6 @@ namespace CMSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AJAXCreate(Comment commentModels, int announcementId)
         {
-
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault
                 (x => x.Id == currentUserId);
@@ -109,8 +108,6 @@ namespace CMSystem.Controllers
             commentModels.CommentTime = DateTime.Now;
             db.Comment.Add(commentModels);
             db.SaveChanges();
-
-
             return PartialView("_CommentTable", GetComment(Announcement));
         }
 

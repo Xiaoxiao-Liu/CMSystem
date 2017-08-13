@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using CMSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using WebApplication.Attribute;
+using CMSystem.Attribute;
 using System.Security.Claims;
 using System.Diagnostics;
 
@@ -22,17 +22,14 @@ namespace CMSystem.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Announcement
-       
+
         public ActionResult Index()
         {
-            //string currentUserId = User.Identity.GetUserId();
-            //ApplicationUser currentUser = db.Users.FirstOrDefault
-            //    (x => x.Id == currentUserId);
-            //return View(db.Announcements.ToList().Where(x=>x.User==currentUser));
             return View();
-            
         }
 
+        //Return a list of annoucement objects with the annoucing time earlier than today,
+        //and with expiry time later than today.
         private IEnumerable<Announcement> GetAnnouncement()
         {
             return db.Announcement.ToList()
@@ -40,9 +37,9 @@ namespace CMSystem.Controllers
                 .Where(time => time.AnnoucingTime <= DateTime.Today);
         }
 
+        //Return a partial view.
         public ActionResult BuildAnnouncementTable()
         {
-            
             return PartialView("_AnnouncementTable", GetAnnouncement());
         }
 
@@ -72,28 +69,24 @@ namespace CMSystem.Controllers
         // POST: Announcement/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-       
-
+        //Receive all data from ajax in "~/Views/Announcement/Index.cshtml" and add these data in database, 
+        //then return a partial view with new data updated. 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
-        public ActionResult AJAXCreate([Bind(Include = "AnnouncementId,AnnouncementTitle,AnnouncementContent,AnnoucingTime,ExpiryTime,Role")] Announcement announcement)
+        public ActionResult AJAXCreate([Bind(Include = "AnnouncementId,AnnouncementTitle,AnnouncementContent,AnnoucingTime,ExpiryTime")] Announcement announcement)
         {
             Debug.WriteLine(announcement.AnnouncementTitle);
-           
-                string currentUserId = User.Identity.GetUserId();
-                ApplicationUser currentUser = db.Users.FirstOrDefault
-                    (x => x.Id == currentUserId);
-                announcement.User = currentUser;
-                              
-                db.Announcement.Add(announcement);
-
-                Comment comment = new Comment();
-                comment.Announcement = announcement;
-
-                db.SaveChanges();
-            
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+            announcement.User = currentUser;
+            announcement.Role = 0;
+            db.Announcement.Add(announcement);
+            Comment comment = new Comment();
+            comment.Announcement = announcement;
+            db.SaveChanges();
             Debug.WriteLine(GetAnnouncement());
             return PartialView("_AnnouncementTable", GetAnnouncement());
         }
@@ -125,7 +118,7 @@ namespace CMSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 db.Entry(announcement).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -150,14 +143,16 @@ namespace CMSystem.Controllers
         }
 
         // POST: Announcement/Delete/5
-        
-
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Get the id of an annoucement object, delete all announcement data from database and save changes,
+        //then return a partial view with new data updated. 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
         [ClaimsAuthorize(ClaimTypes.Role, "Member")]
         public ActionResult AJAXDeleteConfirmed(int id)
-        {           
+        {
             Announcement announcement = db.Announcement.Find(id);
             db.Comment.RemoveRange(db.Comment.Where(x => x.Announcement.AnnouncementId == id));
             db.Announcement.Remove(announcement);
